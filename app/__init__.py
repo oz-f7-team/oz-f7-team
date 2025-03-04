@@ -1,32 +1,17 @@
-from flask import Flask, jsonify
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-import app.models
-from app.routes import routes
-from config import db
-
-migrate = Migrate()
-
+db = SQLAlchemy()
 
 def create_app():
-    application = Flask(__name__)
+    app = Flask(__name__)
+    app.config.from_object("config")
 
-    application.config.from_object("config.Config")
-    application.secret_key = "oz_form_secret"
+    db.init_app(app)
+    Migrate(app, db)
 
-    db.init_app(application)
+    from .routes import api_bp
+    app.register_blueprint(api_bp)
 
-    migrate.init_app(application, db)
-
-		# 400 에러 발생 시, JSON 형태로 응답 반환
-    @application.errorhandler(400)
-    def handle_bad_request(error):
-        response = jsonify({"message": error.description})
-        response.status_code = 400
-        return response
-
-		# 블루프린트 등록
-    application.register_blueprint(routes)
-
-
-    return application
+    return app
