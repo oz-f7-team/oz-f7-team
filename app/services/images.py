@@ -1,10 +1,19 @@
-from ..models import db, Image
+from flask import Flask ,render_template
+from app.models import ImageStatus ,Image ,db
 
-def create_image(url):
-    image = Image(url=url)
-    db.session.add(image)
+
+# 이미지 생성
+def create_image(url : str, image_type : ImageStatus) :
+    new_image = Image(url=url, type = image_type)
+    db.session.add(new_image)
     db.session.commit()
-    return image
+    return new_image.to_dict()
 
-def get_images():
-    return Image.query.all()
+# 이미지 조회
+def get_all_images() :
+    images = Image.query.all()
+    return images
+
+def get_main_image() :
+    image = Image.query.filter_by(type=ImageStatus.main).first()
+    return image
