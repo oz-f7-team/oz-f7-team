@@ -1,33 +1,24 @@
-from ..models import db, User
+from app import db
+from app.models import User
 
-def create_user(name, email, gender, age_group):
-    user = User(name=name, email=email, gender=gender, age_group=age_group)
-    db.session.add(user)
+# 유저 생성 함수
+def create_user(name, age, gender, email):
+    # 이메일 중복 체크
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        return None  # 중복된 이메일이면 None 반환
+    
+    new_user = User(name=name, age=age, gender=gender, email=email)
+    db.session.add(new_user)
     db.session.commit()
+    return new_user
+
+# 유저 조회 함수 (ID로 조회)
+def get_user_by_id(user_id):
+    user = User.query.get(user_id)
     return user
 
-def get_users():
-    return User.query.all()
-
-def update_user(user_id, name=None, email=None, gender=None, age_group=None):
-    user = User.query.get(user_id)
-    if not user:
-        return None
-    if name:
-        user.name = name
-    if email:
-        user.email = email
-    if gender:
-        user.gender = gender
-    if age_group:
-        user.age_group = age_group
-    db.session.commit()
-    return user
-
-def delete_user(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        return None
-    db.session.delete(user)
-    db.session.commit()
-    return True
+# 모든 유저 조회 함수
+def get_all_users():
+    users = User.query.all()
+    return users

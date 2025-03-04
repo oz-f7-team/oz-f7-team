@@ -1,17 +1,29 @@
+from config import db
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_smorest import Api
 
-db = SQLAlchemy()
+migrate = Migrate()
 
 def create_app():
-    app = Flask(__name__)
-    app.config.from_object("config")
+    application = Flask(__name__)    
 
-    db.init_app(app)
-    Migrate(app, db)
+    application.config.from_object("config.Config")
+    application.secret_key = "oz_form_secret"
 
-    from .routes import api_bp
-    app.register_blueprint(api_bp)
+    db.init_app(application)
 
-    return app
+    migrate.init_app(application, db)
+    
+    api = Api(application)
+    
+    from app.routes import user_bp, questions_bp, image_bp, choices_bp
+    from app.stats_routes import stats_routes
+
+    api.register_blueprint(stats_routes)
+    api.register_blueprint(user_bp)
+    api.register_blueprint(questions_bp)
+    api.register_blueprint(image_bp)
+    api.register_blueprint(choices_bp)
+    
+    return application
