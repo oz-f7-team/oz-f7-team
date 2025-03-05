@@ -168,7 +168,7 @@ def create_image_route():
     
     # 성공 메시지 반환
     print(new_image)
-    return jsonify({'message': f'ID: {new_image['id']} Image Success Create'}), 201
+    return jsonify({'message': f'ID: {new_image["id"]} Image Success Create'}), 201
 
 # 메인 이미지 조회 API  
 @image_bp.route('/image/main', methods=['GET'])
