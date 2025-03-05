@@ -4,7 +4,7 @@ db = SQLAlchemy()
 
 
 class Config:
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:oz-password@127.0.0.1/mini_michin_form" #DB연결정보
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:1q2w3e4r&&@127.0.0.1/oz" #DB연결정보
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     #여기까지의 설정이 __init__.py에 있는 create_app()에서 불러와져서 Flask 앱에 적용됨
 
