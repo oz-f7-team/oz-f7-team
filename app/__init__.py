@@ -12,6 +12,8 @@ def create_app():
     application.secret_key = "oz_form_secret"
 
     db.init_app(application)
+    #create_app()에서 db.init_app(application)을 호출하여 SQLAlchemy를 Flask 앱과 연결.
+    #Flask-Migrate를 사용하여 마이그레이션 관리.
 
     migrate.init_app(application, db)
     

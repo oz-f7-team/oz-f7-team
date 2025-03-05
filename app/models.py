@@ -16,6 +16,9 @@ class BaseModel(db.Model): # 모든 모델에 공통컬럼을 정의하는 기�
         db.DateTime, default=lambda: datetime.now(tz=KST),
         onupdate=lambda: datetime.now(tz=KST), nullable=False
     )
+    #models.py - SQLAlchemy ORM 모델 정의
+    #테이블과 필드를 정의한 파일로, BaseModel을 상속하는 모델들이 있음.
+    #db.Model을 사용해 SQLAlchemy 모델을 정의함.
 
 class AgeStatus(Enum): # 연령대
     teen = "teen"

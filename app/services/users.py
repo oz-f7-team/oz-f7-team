@@ -12,6 +12,8 @@ def create_user(name, age, gender, email):
     db.session.add(new_user)
     db.session.commit()
     return new_user
+    #services/ - ORM을 사용한 DB 조작 코드
+    #db.session을 사용해서 데이터를 삽입(add), 조회(query), 삭제(delete)하는 코드들이 있음
 
 # 유저 조회 함수 (ID로 조회)
 def get_user_by_id(user_id):
